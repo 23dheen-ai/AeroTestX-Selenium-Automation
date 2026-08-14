@@ -10,10 +10,6 @@ target/
 .idea/
 *.iml
 
-# OS
-.DS_Store
-Thumbs.db
-
 # Logs
 *.log
 logs/
@@ -23,5 +19,6 @@ test-output/
 allure-results/
 allure-report/
 
-# Temporary files
-*.tmp
+# OS
+.DS_Store
+Thumbs.db
