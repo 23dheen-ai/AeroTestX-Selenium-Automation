@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 
 import com.aerotestx.base.BaseTest;
 
-public class BaseTestDemo extends BaseTest{
+public class BaseTestDemoTest extends BaseTest{
 
 	@Test
 	public void verifyGoogleTitle() {
@@ -15,4 +15,5 @@ public class BaseTestDemo extends BaseTest{
 		Assert.assertEquals(Actual, "Google"); 
 	}
 
+	
 }
