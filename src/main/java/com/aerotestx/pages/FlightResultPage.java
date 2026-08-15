@@ -9,10 +9,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.aerotestx.models.Flight;
+import com.aerotestx.utils.WaitUtils;
 
 public class FlightResultPage {
 
 	private WebDriver driver;
+	private WaitUtils wait;
 
 	private By flightRows = By.cssSelector("table tbody tr");
 
@@ -21,6 +23,7 @@ public class FlightResultPage {
 	public FlightResultPage(WebDriver driver) {
 
 		this.driver = driver;
+		this.wait = new WaitUtils(driver);
 	}
 
 	public String getResultHeading() {
@@ -30,10 +33,13 @@ public class FlightResultPage {
 
 	public boolean isFlightResultsDisplayed() {
 
-		return driver.findElement(resultHeading).isDisplayed();
+		return wait
+		        .waitForVisibility(resultHeading).isDisplayed();
 	}
 
 	public List<Flight> getAvailableFlights() {
+		
+		wait.waitForElementPresent(flightRows);
 
 		List<Flight> flights = new ArrayList<>();
 

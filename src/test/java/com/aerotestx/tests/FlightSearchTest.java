@@ -3,13 +3,15 @@ package com.aerotestx.tests;
 import java.util.List;
 
 import org.testng.Assert;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.aerotestx.base.BaseTest;
+import com.aerotestx.listeners.TestListener;
 import com.aerotestx.models.Flight;
 import com.aerotestx.pages.FlightResultPage;
 import com.aerotestx.pages.FlightSearchPage;
-
+@Listeners(TestListener.class)
 public class FlightSearchTest extends BaseTest{
 
 	@Test

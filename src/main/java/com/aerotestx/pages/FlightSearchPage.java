@@ -4,11 +4,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 
+import com.aerotestx.utils.WaitUtils;
+
 public class FlightSearchPage {
 
-	private WebDriver driver; 
+	private WebDriver driver;
+	private WaitUtils wait;
 	
-	private By depatureCity = By.name("fromPort");
+	private By departureCity = By.name("fromPort");
 	
 	private By destinationCity = By.name("toPort");
 	
@@ -16,23 +19,24 @@ public class FlightSearchPage {
 	
 	public FlightSearchPage(WebDriver driver) {
 		this.driver = driver;
+		this.wait = new WaitUtils(driver);
 	}
 
 	public void selectDepatureCity(String city) {
-		Select depature = new Select(driver.findElement(depatureCity));
+		Select depature = new Select(wait.waitForVisibility(departureCity));
 		
 		depature.selectByVisibleText(city);
 	}
 	
 	public void selectDestiantionCity(String city) {
-		Select depature = new Select(driver.findElement(destinationCity));
+		Select depature = new Select(wait.waitForVisibility(destinationCity));
 		
 		depature.selectByVisibleText(city);
 	}
 	
 	public void FindFlights() {
 		
-		driver.findElement(submit).click();;
+		wait.waitForClickable(submit).click();;
 		
 		
 	}

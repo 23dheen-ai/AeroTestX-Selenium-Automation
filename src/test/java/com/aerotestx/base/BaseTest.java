@@ -40,4 +40,8 @@ protected WebDriver driver;
 			driver.quit();
 		}
 }
+
+	public WebDriver getDriver() {
+    return driver;
+}
 }
