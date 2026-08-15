@@ -7,42 +7,44 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.aerotestx.base.BaseTest;
+import com.aerotestx.data.FlightData;
+import com.aerotestx.data.FlightRoute;
 import com.aerotestx.listeners.TestListener;
 import com.aerotestx.models.Flight;
 import com.aerotestx.pages.FlightResultPage;
 import com.aerotestx.pages.FlightSearchPage;
-@Listeners(TestListener.class)
-public class FlightSearchTest extends BaseTest{
 
-	@Test
-	public void searchFlights() {
-		
+@Listeners(TestListener.class)
+public class FlightSearchTest extends BaseTest {
+
+	@Test(description = "Verify end-to-end booking for multiple routes",
+			dataProvider = "flightRoutes", 
+			dataProviderClass = FlightData.class)
+	public void searchFlights(FlightRoute route) {
+
 		FlightSearchPage searchPage = new FlightSearchPage(driver);
-		
-		searchPage.selectDepatureCity("Boston");
-		searchPage.selectDestiantionCity("New York");
+		//System.out.println("Searching: " + from + " -> " + to);
+		searchPage.selectDepatureCity(route.getFrom());
+		searchPage.selectDestiantionCity(route.getTO());
 		searchPage.FindFlights();
-		
+
 		FlightResultPage results = new FlightResultPage(driver);
-		
+
 		Assert.assertTrue(results.isFlightResultsDisplayed(), "Flight results page was not displayed");
-	
+
 		List<Flight> flights = results.getAvailableFlights();
 		System.out.println("Total flights found: " + flights.size());
-		
+
 		for (Flight flight : flights) {
 			System.out.println(flight);
 		}
-		
+
 		Flight cheapestFlight = results.getCheapestFlight();
-		System.out.println("CheapestFlight: "+ cheapestFlight);
-		
-		Assert.assertNotNull(
-                cheapestFlight,
-                "Cheapest flight was not found"
-        );
-		
+		System.out.println("CheapestFlight: " + cheapestFlight);
+
+		Assert.assertNotNull(cheapestFlight, "Cheapest flight was not found");
+
 		results.selectFlight(cheapestFlight);
 	}
-	
+
 }
