@@ -8,7 +8,8 @@ public class BaseApiTest {
 
 	@BeforeClass
 	public void setUp() {
-		RestAssured.baseURI =
-                "https://jsonplaceholder.typicode.com";
+		RestAssured.requestSpecification = ApiSpecifications.requestSpecification();
+		
+		RestAssured.responseSpecification = ApiSpecifications.responseSpecification();
 	}
 }

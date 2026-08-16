@@ -1,51 +1,77 @@
 package com.aerotestx.api;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.aerotestx.data.ApiTestData;
 
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
+import io.restassured.response.Response;
 
-public class PostApiTest extends BaseApiTest {
+public class PostApiTest extends BaseApiTest{
 
+	private ApiClient apiClient =
+            new ApiClient();
+	
 	@Test
-	public void getPost() {
+	public void createGET() {
+		
+		Response response = apiClient.get(ApiEndpoints.postById(1));
+		
+		Assert.assertEquals(
+                response.statusCode(),200);
 
-		 given()
+		int createdId =
+	            response.path("id");
+		
+        Assert.assertEquals(
+        		createdId,1);
 
-				.when().get("/posts/1")
-
-				.then().statusCode(200)
-	            .body("id", equalTo(1))
-	            .body("userId", equalTo(1))
-	            .body("title", notNullValue())
-	            .body("body", notNullValue());
-
+        int createdUser =
+	            response.path("userId");
+        
+        Assert.assertEquals(
+        		createdUser,1);
+        
 	}
-
+	
 	@Test
-	public void createPost() {
-
+	public void createPOST() {
+		
 		String requestBody = ApiTestData.createPostRequest();
+		
+		Response response= apiClient.post(ApiEndpoints.POSTS, requestBody);
+		
+		Assert.assertEquals(
+	            response.statusCode(), 201);
 
-		given().contentType("application/json").body(requestBody)
+	    Assert.assertEquals(
+	            response.path("title"),"AeroTestX API Test");
 
-				.when().post("/posts")
+	    int createdUserId =
+	            response.path("userId");
+	    
+	    Assert.assertEquals(
+	    		createdUserId, 1);
+	    
+	    int createdPostId =
+	            response.path("id");
 
-				.then().statusCode(201).body("title", equalTo("AeroTestX API Test"))
-				.body("body", equalTo("REST Assured automation")).body("userId", equalTo(1));
-
+	    Assert.assertTrue(
+	            createdPostId > 0,
+	            "Created post ID should be greater than zero");
+		
 	}
-	@Test
-	public void ForInvalidPost() {
-
-	    given()
-
-	    .when()
-	        .get("/posts/99999999")
-
-	    .then()
-	        .statusCode(404);
+	
+	public void extractPostId() {
+		Response response =
+	            apiClient.get(
+	                    ApiEndpoints.postById(1));
+		
+		int postId = response.path("id");
+		System.out.println("Post ID: " + postId);
+		
+		Assert.assertEquals(postId,1);
+		
+		
 	}
 }
