@@ -9,7 +9,7 @@ public class BaseApiTest {
 	@BeforeClass
 	public void setUp() {
 		RestAssured.requestSpecification = ApiSpecifications.requestSpecification();
-		
+
 		RestAssured.responseSpecification = ApiSpecifications.responseSpecification();
 	}
 }
