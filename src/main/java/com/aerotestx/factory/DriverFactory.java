@@ -12,33 +12,52 @@ public class DriverFactory {
 
 	private static final Logger log =
 	        LogUtils.getLogger(DriverFactory.class);
+	private static final ThreadLocal<WebDriver>
+    driver = new ThreadLocal<>();
 	
-	public static WebDriver createDriver(String browser) {
+	public static WebDriver initializeDriver(String browser) {
 
-		log.info(
-			    "Initializing browser: {}",
-			    browser
-			);
-        if (browser == null || browser.isBlank()) {
-            browser = "chrome";
-        }
+        WebDriver webDriver;
 
         switch (browser.toLowerCase()) {
 
-        case "chrome":
-            return new ChromeDriver();
+            case "chrome":
+                webDriver = new ChromeDriver();
+                break;
 
-        case "firefox":
-            return new FirefoxDriver();
+            case "firefox":
+                webDriver = new FirefoxDriver();
+                break;
 
-        case "edge":
-            return new EdgeDriver();
+            case "edge":
+                webDriver = new EdgeDriver();
+                break;
 
-        default:
-            throw new IllegalArgumentException(
-                    "Unsupported browser: " + browser);
+            default:
+                throw new IllegalArgumentException(
+                        "Invalid browser: " + browser
+                );
         }
+
+        driver.set(webDriver);
+		return webDriver;
+    }
+
+    public static WebDriver getDriver() {
+        return driver.get();
+    }
+
+    public static void unload() {
+
+        WebDriver webDriver = driver.get();
+
+        if (webDriver != null) {
+            webDriver.quit();
+        }
+
+        driver.remove();
+    }
         
     }
 	
-}
+

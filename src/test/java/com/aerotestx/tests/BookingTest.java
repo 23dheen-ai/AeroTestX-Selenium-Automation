@@ -16,7 +16,7 @@ import com.aerotestx.utils.TestDataFactory;
 @Listeners(TestListener.class)
 public class BookingTest extends BaseTest{
 
-	@Test
+	@Test(description = "Verify complete booking")
 	public void CompleteBooking() {
 
         // 1. Search flight

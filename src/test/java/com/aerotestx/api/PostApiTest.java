@@ -67,7 +67,7 @@ public class PostApiTest extends BaseApiTest{
 	            "Created post ID should be greater than zero");
 		
 	}
-	
+	@Test
 	public void extractPostId() {
 		Response response =
 	            apiClient.get(
