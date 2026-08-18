@@ -1,10 +1,16 @@
 # Maven
 target/
+logs/
+
+# Screenshots
+screenshots/
 
 # Eclipse
 .classpath
 .project
 .settings/
+.idea/
+.vscode/
 
 # IntelliJ
 .idea/
@@ -22,3 +28,6 @@ allure-report/
 # OS
 .DS_Store
 Thumbs.db
+
+# Local configuration
+config-local.properties

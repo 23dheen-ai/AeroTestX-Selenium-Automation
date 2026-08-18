@@ -1,9 +1,11 @@
 package com.aerotestx.api;
 
+import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.aerotestx.data.ApiTestData;
+import com.aerotestx.utils.LogUtils;
 
 import io.restassured.response.Response;
 
@@ -11,12 +13,16 @@ public class PostApiTest extends BaseApiTest{
 
 	private ApiClient apiClient =
             new ApiClient();
+	private static final Logger log =
+	        LogUtils.getLogger(PostApiTest.class);
 	
 	@Test
 	public void createGET() {
-		
+		log.info("Starting GET post test");
 		Response response = apiClient.get(ApiEndpoints.postById(1));
 		
+		log.info("API response status: {}",response.statusCode());
+		        
 		Assert.assertEquals(
                 response.statusCode(),200);
 
@@ -31,7 +37,7 @@ public class PostApiTest extends BaseApiTest{
         
         Assert.assertEquals(
         		createdUser,1);
-        
+        log.info("GET post validation completed");
 	}
 	
 	@Test

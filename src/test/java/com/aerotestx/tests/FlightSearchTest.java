@@ -46,5 +46,5 @@ public class FlightSearchTest extends BaseTest {
 
 		results.selectFlight(cheapestFlight);
 	}
-
-}
+	
+	}

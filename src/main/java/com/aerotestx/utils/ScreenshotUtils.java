@@ -14,17 +14,22 @@ import org.openqa.selenium.WebDriver;
 
 public class ScreenshotUtils {
 
+	private ScreenshotUtils() {
+		
+	}
+	
 	 public static String captureScreenshot(WebDriver driver,String testName) {
 		 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmSS").format(new Date());
 		 
-		 String directory = "test-output/screenshots/";
+		 String directory = "screenshots";
+		 
 		 
 		 String fileName = testName +"_"+timeStamp+".png";
 		 
-		 Path path = Paths.get(directory+fileName);
+		 Path path = Paths.get(directory,fileName);
 		 
 		 try {
-			 Files.createDirectories(path.getParent());
+			 Files.createDirectories(Paths.get(directory));
 			 
 			 File source = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
 			 
