@@ -18,7 +18,10 @@ public class DriverFactory {
 	public static WebDriver initializeDriver(String browser) {
 
         WebDriver webDriver;
-
+        log.info(
+        	    "Initializing browser: {}",
+        	    browser
+        	);
         switch (browser.toLowerCase()) {
 
             case "chrome":
@@ -34,16 +37,26 @@ public class DriverFactory {
                 break;
 
             default:
+            	log.error(
+            		    "Unsupported browser: {}",
+            		    browser
+            		);
                 throw new IllegalArgumentException(
-                        "Invalid browser: " + browser
-                );
+                        "Invalid browser: " + browser );
+                
         }
+        
 
         driver.set(webDriver);
+        log.info(
+        	    "Browser initialized successfully: {}",
+        	    browser
+        	);
 		return webDriver;
     }
 
     public static WebDriver getDriver() {
+    	
         return driver.get();
     }
 
@@ -52,6 +65,7 @@ public class DriverFactory {
         WebDriver webDriver = driver.get();
 
         if (webDriver != null) {
+        	log.info("Closing browser");
             webDriver.quit();
         }
 

@@ -1,20 +1,23 @@
 package com.aerotestx.listeners;
 
-import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-import com.aerotestx.base.BaseTest;
-import com.aerotestx.pages.FlightSearchPage;
-import com.aerotestx.utils.LogUtils;
-import com.aerotestx.utils.ScreenshotUtils;
+import com.aerotestx.factory.DriverFactory;
+
+import com.aerotestx.utils.ExtentManager;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 
 public class TestListener implements ITestListener {
 
-	private static final Logger log = LogUtils.getLogger(TestListener.class);
-	
+//	private static final Logger log = LogUtils.getLogger(TestListener.class);
+	private static ThreadLocal<ExtentTest> extentTest = new ThreadLocal<>();
+
 	@Override
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
@@ -23,47 +26,58 @@ public class TestListener implements ITestListener {
 
 	@Override
 	public void onTestStart(ITestResult result) {
-		
+
 		ITestListener.super.onTestStart(result);
-		
-		log.info(
-		        "TEST STARTED: {}",
-		        result.getMethod().getMethodName()
-		    );
+		ExtentTest test = ExtentManager.getExtentReports().createTest(result.getMethod().getMethodName());
+
+		extentTest.set(test);
+		String browser = System.getProperty("browser");
+
+		extentTest.get().info("Browser: " + browser);
+		extentTest.get().log(Status.INFO, "Test Started");
+
+//		log.info("TEST STARTED: {}", result.getMethod().getMethodName());
 	}
 
 	@Override
 	public void onTestSuccess(ITestResult result) {
-		
+
 		ITestListener.super.onTestSuccess(result);
-		
-		log.info(
-		        "TEST PASSED: {}",
-		        result.getMethod().getMethodName()
-		    );
+
+//		log.info("TEST PASSED: {}", result.getMethod().getMethodName());
+		extentTest.get().log(Status.INFO, "Test Passed");
 	}
 
 	@Override
 	public void onTestFailure(ITestResult result) {
 
 		ITestListener.super.onTestFailure(result);
+		extentTest.get().log(Status.INFO, "Test Failed");
+		WebDriver driver = DriverFactory.getDriver();
+		if (driver != null) {
+			try {
+				String screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
+				extentTest.get().addScreenCaptureFromBase64String(screenshot, "Failure Screenshot");
 
-		Object instance = result.getInstance();
-		WebDriver driver = ((BaseTest) instance).getDriver();
+			} catch (Exception e) {
+				extentTest.get().log(Status.WARNING, "Screenshot could not be captured");
+			}
+		}
 
-		String testName = result.getMethod().getMethodName();
-		ScreenshotUtils.captureScreenshot(driver, testName);
+//		Object instance = result.getInstance();
+//		WebDriver driver = ((BaseTest) instance).getDriver();
+//
+//		String testName = result.getMethod().getMethodName();
+//		ScreenshotUtils.captureScreenshot(driver, testName);
 
 	}
 
 	@Override
 	public void onTestSkipped(ITestResult result) {
-		
+
 		ITestListener.super.onTestSkipped(result);
-		log.warn(
-		        "TEST SKIPPED: {}",
-		        result.getMethod().getMethodName()
-		    );
+//		log.warn("TEST SKIPPED: {}", result.getMethod().getMethodName());
+		extentTest.get().log(Status.INFO, "Test Skipped");
 	}
 
 	@Override
@@ -86,7 +100,7 @@ public class TestListener implements ITestListener {
 
 	@Override
 	public void onFinish(ITestContext context) {
-		// TODO Auto-generated method stub
+		ExtentManager.getExtentReports().flush();
 		ITestListener.super.onFinish(context);
 	}
 

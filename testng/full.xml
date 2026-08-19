@@ -3,7 +3,7 @@
 <!DOCTYPE suite SYSTEM
         "https://testng.org/testng-1.0.dtd">
 
-<suite name="AeroTestX Full Suite">
+<suite name="AeroTestX Full Suite" parallel="classes" thread-count="10">
 
     <test name="UI Tests">
  

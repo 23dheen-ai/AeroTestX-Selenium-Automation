@@ -21,29 +21,44 @@ public class ScreenshotUtils {
 	 public static String captureScreenshot(WebDriver driver,String testName) {
 		 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmSS").format(new Date());
 		 
-		 String directory = "screenshots";
-		 
-		 
-		 String fileName = testName +"_"+timeStamp+".png";
-		 
-		 Path path = Paths.get(directory,fileName);
-		 
 		 try {
-			 Files.createDirectories(Paths.get(directory));
-			 
-			 File source = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-			 
-			 Files.copy(source.toPath(), path);
-			 
-			 System.out.println(
-	                    "Screenshot saved: "
-	                    + path);
-	     return path.toString();
 
-			
-		} catch (IOException e) {
-			throw new RuntimeException("Failed to capute screenshot", e);
-		}
+	            Path screenshotDirectory =
+	                    Path.of(
+	                            System.getProperty("user.dir"),
+	                            "target",
+	                            "screenshots"
+	                    );
+
+	            Files.createDirectories(
+	                    screenshotDirectory
+	            );
+
+	            File source =
+	                    ((TakesScreenshot) driver)
+	                            .getScreenshotAs(
+	                                    OutputType.FILE
+	                            );
+
+	            Path destination =
+	                    screenshotDirectory.resolve(
+	                            testName + timeStamp+".png"
+	                    );
+
+	            Files.copy(
+	                    source.toPath(),
+	                    destination
+	            );
+
+	            return destination.toString();
+
+	        } catch (IOException e) {
+
+	            throw new RuntimeException(
+	                    "Unable to capture screenshot",
+	                    e
+	            );
+	        }
 		 
 	 }
 }

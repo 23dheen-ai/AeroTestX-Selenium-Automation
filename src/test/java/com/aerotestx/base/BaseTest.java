@@ -13,8 +13,9 @@ import com.aerotestx.utils.ConfigReader;
 import com.aerotestx.utils.LogUtils;
 
 public abstract class BaseTest {
+	
 
-	protected WebDriver driver;
+
 
 	private static final Logger log =
 	        LogUtils.getLogger(BaseTest.class);
@@ -23,19 +24,17 @@ public abstract class BaseTest {
 	public void setUp() {
 
 		log.info("Starting test setup");
-
-		String browser = System.getProperty("browser", ConfigReader.getProperty("browser"));
-
-		String url = ConfigReader.getProperty("url");
-
+		
+		String browser =System.getProperty("browser",ConfigReader.getProperty("browser"));
+		
+		DriverFactory.initializeDriver(browser);
 		Long implicitWait = Long.parseLong(ConfigReader.getProperty("implicitWait"));
-		driver = DriverFactory.initializeDriver(browser);
-		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitWait));
+		DriverFactory.getDriver().manage().window().maximize();
+		DriverFactory.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitWait));
 		
 		log.info("Browser initialized successfully");
-		
-		driver.get(url);
+		String url = ConfigReader.getProperty("url");
+		DriverFactory.getDriver().get(url);
 		
 	}
 

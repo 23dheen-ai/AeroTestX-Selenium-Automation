@@ -22,7 +22,7 @@ public class BookingTest extends BaseTest{
         // 1. Search flight
 
         FlightSearchPage searchPage =
-                new FlightSearchPage(driver);
+                new FlightSearchPage(getDriver());
 
         searchPage.selectDepatureCity("Boston");
 
@@ -34,7 +34,7 @@ public class BookingTest extends BaseTest{
         // 2. Select cheapest flight
 
         FlightResultPage resultPage =
-                new FlightResultPage(driver);
+                new FlightResultPage(getDriver());
 
         Assert.assertTrue(
                 resultPage.isFlightResultsDisplayed(),
@@ -63,7 +63,7 @@ public class BookingTest extends BaseTest{
         // 4. Fill purchase form
 
         PurchasePage purchasePage =
-                new PurchasePage(driver);
+                new PurchasePage(getDriver());
 
         purchasePage.fillPassengerDetails(
                 passenger
@@ -75,7 +75,7 @@ public class BookingTest extends BaseTest{
         // 5. Validate confirmation
 
         ConfirmationPage confirmationPage =
-                new ConfirmationPage(driver);
+                new ConfirmationPage(getDriver());
 
         Assert.assertTrue(
                 confirmationPage

@@ -2,35 +2,35 @@
 
 <Configuration status="WARN">
 
-	<Appenders>
+    <Appenders>
 
-		<Console name="Console"
-			target="SYSTEM_OUT">
+        <Console name="Console" target="SYSTEM_OUT">
 
-			<PatternLayout
-				pattern="%d{HH:mm:ss} %-5level %c{1} - %msg%n" />
+            <PatternLayout
+                pattern="%d{HH:mm:ss} %-5level %logger{36} - %msg%n"/>
 
-		</Console>
+        </Console>
 
-		<File name="File"
-			fileName="logs/aerotestx.log">
+        <File name="File"
+              fileName="target/logs/aerotestx.log">
 
-			<PatternLayout
-				pattern="%d{yyyy-MM-dd HH:mm:ss} %-5level %c{1} - %msg%n" />
+            <PatternLayout
+                pattern="%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"/>
 
-		</File>
+        </File>
 
-	</Appenders>
+    </Appenders>
 
-	<Loggers>
+    <Loggers>
 
-		<Root level="info">
+        <Root level="info">
 
-			<AppenderRef ref="Console" />
-			<AppenderRef ref="File" />
+            <AppenderRef ref="Console"/>
 
-		</Root>
+            <AppenderRef ref="File"/>
 
-	</Loggers>
+        </Root>
+
+    </Loggers>
 
 </Configuration>
