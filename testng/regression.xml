@@ -10,7 +10,10 @@
         <packages>
 
             <package name="com.aerotestx.tests"/>
-
+            
+			<package name="com.aerotestx.database"></package>
+			
+			<package name="com.aerotestx.api"></package>
         </packages>
 
     </test>

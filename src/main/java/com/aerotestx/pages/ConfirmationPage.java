@@ -2,6 +2,7 @@ package com.aerotestx.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import com.aerotestx.utils.WaitUtils;
 
@@ -10,52 +11,48 @@ public class ConfirmationPage {
 	private WebDriver driver;
 	private WaitUtils wait;
 
-    private By confirmationHeading =
-            By.tagName("h1");
-    
-    private By confirmationTable =
-            By.cssSelector("table");
+	private By confirmationHeading = By.tagName("h1");
 
-    public ConfirmationPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WaitUtils(driver);
-    }
-    
-    public String getConfirmation() {
-    	return driver.findElement(confirmationHeading).getText();
-    }
-    
-    public String getBookingId() {
+	private By confirmationTable = By.cssSelector("table");
+	
+	private By jsonFile = By.xpath("//pre");
 
-        return getTableValue("Id");
-    }
+	public ConfirmationPage(WebDriver driver) {
+		this.driver = driver;
+		this.wait = new WaitUtils(driver);
+	}
 
-    public String getStatus() {
+	public String getConfirmation() {
+		return driver.findElement(confirmationHeading).getText();
+	}
 
-        return getTableValue("Status");
-    }
+	public String getBookingId() {
 
-    public String getAmount() {
+		return getTableValue("Id");
+	}
 
-        return getTableValue("Amount");
-    }
+	public String getStatus() {
 
-    private String getTableValue(String label) {
+		return getTableValue("Status");
+	}
 
-        return driver.findElement(
-                By.xpath(
-                    "//table//td[normalize-space()='"
-                    + label
-                    + "']/following-sibling::td[1]"
-                )
-        ).getText();
-    }
+	public String getAmount() {
 
-    public boolean isConfirmationDisplayed() {
+		return getTableValue("Amount");
+	}
 
-        return wait
-                .waitForVisibility(
-                confirmationTable
-        ).isDisplayed();
-    }
-}
+	private String getTableValue(String label) {
+
+		return driver.findElement(By.xpath("//table//td[normalize-space()='" + label + "']/following-sibling::td[1]"))
+				.getText();
+	}
+
+	public boolean isConfirmationDisplayed() {
+
+		return wait.waitForVisibility(confirmationTable).isDisplayed();
+	}
+	public WebElement getJsonForm() {
+
+		WebElement file = wait.waitForVisibility(jsonFile);
+		return file;
+}}

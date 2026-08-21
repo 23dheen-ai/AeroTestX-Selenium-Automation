@@ -25,27 +25,29 @@ public class FlightSearchPage {
 		this.wait = new WaitUtils(driver);
 	}
 
-	public void selectDepatureCity(String city) {
+	public FlightSearchPage selectDepatureCity(String city) {
 		log.info("Selecting departure city: {}", city);
 
 		Select depature = new Select(wait.waitForVisibility(departureCity));
 
 		depature.selectByVisibleText(city);
+		return this;
 	}
 
-	public void selectDestiantionCity(String city) {
+	public FlightSearchPage selectDestiantionCity(String city) {
 
 		log.info("Selecting destination city: {}", city);
 		Select depature = new Select(wait.waitForVisibility(destinationCity));
 
 		depature.selectByVisibleText(city);
+		return this;
 	}
 
-	public void FindFlights() {
+	public FlightResultPage FindFlights() {
 		log.info("Clicking flight search button");
 
 		wait.waitForClickable(submit).click();
-		;
+		return new FlightResultPage(driver);
 
 	}
 

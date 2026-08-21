@@ -93,7 +93,7 @@ public class PurchasePage {
 		return this;
 	}
 	public PurchasePage creditCardYear(String value) {
-		wait.waitForVisibility(creditCardYear).clear();
+		wait.waitForVisibility( creditCardYear).clear();
 		wait.waitForVisibility(creditCardYear).sendKeys(value);
 		return this;
 	}
@@ -137,5 +137,7 @@ public class PurchasePage {
 
 	    return this;
 	}
+
+    
 	
 }

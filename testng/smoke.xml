@@ -10,11 +10,9 @@
 
 	<test name="UI Smoke Tests">
 
-		<classes>
-
-			<class name="com.aerotestx.tests.FlightSearchTest" />
-
-		</classes>
+		<packages>
+		<package name="com.aerotestx.tests"></package>
+		</packages>
 
 	</test>
 

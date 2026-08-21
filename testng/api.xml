@@ -4,7 +4,12 @@
         "https://testng.org/testng-1.0.dtd">
 
 <suite name="AeroTestX API Suite">
+<listeners>
 
+        <listener
+            class-name="com.aerotestx.listeners.TestListener"/>
+
+    </listeners>
     <test name="API Tests">
 
         <packages>

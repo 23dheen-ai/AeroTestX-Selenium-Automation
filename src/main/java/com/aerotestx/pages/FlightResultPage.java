@@ -61,7 +61,9 @@ public class FlightResultPage {
 			flights.add(flight);
 		}
 		return flights;
+		
 	}
+	
 
 	public Flight getCheapestFlight() {
 
