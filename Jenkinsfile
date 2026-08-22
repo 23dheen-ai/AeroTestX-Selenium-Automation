@@ -11,7 +11,7 @@ pipeline {
                 'firefox',
                 'edge'
             ],
-            description: 'Select browser for UI tests'
+            description: 'Browser for UI tests'
         )
 
         choice(
@@ -21,9 +21,10 @@ pipeline {
                 'regression',
                 'api',
                 'database',
-                'full'
+                'full',
+                'ErrorValidation'
             ],
-            description: 'Select TestNG suite'
+            description: 'TestNG suite'
         )
     }
 
@@ -36,7 +37,7 @@ pipeline {
             }
         }
 
-        stage('Environment') {
+        stage('Environment Check') {
 
             steps {
 
@@ -48,22 +49,14 @@ pipeline {
             }
         }
 
-        stage('Build') {
-
-            steps {
-
-                bat 'mvn clean compile'
-            }
-        }
-
-        stage('Execute Tests') {
+        stage('Run Tests') {
 
             steps {
 
                 bat """
-                    mvn test ^
-                    -DsuiteXmlFile=testng/${SUITE}.xml ^
-                    -Dbrowser=${BROWSER}
+                mvn clean test ^
+                -DsuiteXmlFile=testng/${SUITE}.xml ^
+                -Dbrowser=${BROWSER}
                 """
             }
         }
@@ -74,8 +67,7 @@ pipeline {
         always {
 
             junit(
-                testResults:
-                    'target/surefire-reports/*.xml',
+                testResults: 'target/surefire-reports/*.xml',
                 allowEmptyResults: true
             )
 
@@ -102,7 +94,7 @@ pipeline {
 
         failure {
 
-            echo 'AeroTestX execution failed. Check the test reports.'
+            echo 'AeroTestX execution failed.'
         }
     }
 }
