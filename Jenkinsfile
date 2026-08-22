@@ -55,7 +55,7 @@ pipeline {
 
                 bat """
                 mvn clean test ^
-                -DsuiteXmlFile=testng/${SUITE}.xml ^
+                -P{SUITE} ^
                 -Dbrowser=${BROWSER}
                 """
             }
