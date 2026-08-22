@@ -3,18 +3,27 @@
 <!DOCTYPE suite SYSTEM
         "https://testng.org/testng-1.0.dtd">
 
-<suite name="AeroTestX Regression Suite">
+<suite name="AeroTestX Regression Suite" parallel="classes"
+       thread-count="5">
 
     <test name="UI Regression Tests">
 
-        <packages>
+        <classes>
 
-            <package name="com.aerotestx.tests"/>
+            <!-- UI -->
+            <class name="com.aerotestx.tests.FlightSearchTest"/>
+
+            <class name="com.aerotestx.tests.BookingTest"/>
             
-			<package name="com.aerotestx.database"></package>
-			
-			<package name="com.aerotestx.api"></package>
-        </packages>
+            <class name="com.aerotestx.tests.SearchCheapestFlights"/>
+
+            <!-- API -->
+            <class name="com.aerotestx.api.UserApiTesting"/>
+            <class name="com.aerotestx.api.UserCrudTest"/>
+
+            <!-- Database -->
+            <class name="com.aerotestx.database.DatabaseTest"/>
+        </classes>    
 
     </test>
 

@@ -6,8 +6,8 @@
 	<test name="Database Tests">
 
 		<classes>
-
-			<class name="com.aerotestx.database.DatabaseTest" />
+		
+			<class name="com.aerotestx.validation.ErrorValidation"></class>
 
 		</classes>
 
